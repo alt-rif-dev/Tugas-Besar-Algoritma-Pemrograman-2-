@@ -34,6 +34,8 @@ import "fmt"
 	type tabkerusakan [nmax]statkerusakan
 
 	// CRUD KENDARAAN 
+	// Hasbi: Ini procedure2 crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
+	// Klo ada tambahan tambah aja \\ 25-05-2026
 	func inputkendaraan(daftar *tabkendaraan,  n *int) {
 		var k kendaraan
 		if *n >= nmax {
@@ -81,34 +83,35 @@ import "fmt"
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
-			fmt.Print("Masukkan plat nomor baru ( '-' untuk skip)")
+			fmt.Print("Masukkan plat nomor baru ( '-' untuk skip): ")
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].platnomor = baru
 			}
 
-			fmt.Print("Masukkan merek kendaraan baru ( '-' untuk skip)")
+			fmt.Print("Masukkan merek kendaraan baru ( '-' untuk skip): ")
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].merek = baru
 			}
 			
-			fmt.Print("Masukkan model kendaraan baru ( '-' untuk skip)")
+			fmt.Print("Masukkan model kendaraan baru ( '-' untuk skip): ")
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].model = baru
 			}
 			
-			fmt.Print("Masukkan tgl service baru ( '-' untuk skip)")
-			fmt.Scan(&baru)
-			if baru != "-"{
-				daftar[idx].tglserviceterakir = baru
-				}
-			
-			fmt.Print("Masukkan tahun produksi  baru ( '0' untuk skip)")
+			fmt.Print("Masukkan tahun produksi  baru ( '0' untuk skip): ")
 			fmt.Scan(&baruint)
 			if baruint != 0 {
 				daftar[idx].tahunproduksi = baruint
+			}
+
+			fmt.Print("Data Kendaraan Berhasil Diubah ")
+			fmt.Print("Masukkan tgl service baru ( '-' untuk skip): ")
+			fmt.Scan(&baru)
+			if baru != "-"{
+				daftar[idx].tglserviceterakir = baru
 			}
 		}
 	}
@@ -141,6 +144,7 @@ import "fmt"
 	// END CRUD KENDARAAN
 
 	// CRUD PEMILIK
+	// 
 	func inputpemilik(daftar *tabpemilik,  n *int) {
 		var k pemilik
 		if *n >= nmax {
@@ -182,19 +186,19 @@ import "fmt"
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
-			fmt.Print("Masukkan nama pemilik baru ( '-' untuk skip)")
+			fmt.Print("Masukkan nama pemilik baru ( '-' untuk skip): ")
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].nama = baru
 			}
 
-			fmt.Print("Masukkan id pemilik baru ( '0' untuk skip)")
+			fmt.Print("Masukkan id pemilik baru ( '0' untuk skip): ")
 			fmt.Scan(&baruint)
 			if baruint != 0{
 				daftar[idx].id = baruint
 			}
 
-			fmt.Print("Masukkan kontak pemilik baru ( '-' untuk skip)")
+			fmt.Print("Masukkan kontak pemilik baru ( '-' untuk skip): ")
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].kontak = baru
@@ -261,13 +265,13 @@ import "fmt"
 	// END CR SERVICE
 
 	// ALGORITHM
-	func selectionsort(daftar *tabkendaraan, n int) {
+	func selectionsorttahun(daftar *tabkendaraan, n int) {
 		var i, pass, idx int
 		var temp kendaraan
 		for pass = 0; pass < n-1; pass++ {
 			idx = pass
 			for i = pass + 1; i < n; i++ {
-				if daftar[i].tahunproduksi < daftar[idx].tahunproduksi  {
+				if daftar[i].tahunproduksi < daftar[idx].tahunproduksi   {
 					idx = i
 				}
 			}
@@ -277,7 +281,23 @@ import "fmt"
 		}
 	}
 
-	func insertionsort(daftar *tabkendaraan, n int) {
+	func selectionsortplat(daftar *tabkendaraan, n int) {
+		var i, pass, idx int
+		var temp kendaraan
+		for pass = 0; pass < n-1; pass++ {
+			idx = pass
+			for i = pass + 1; i < n; i++ {
+				if daftar[i].platnomor < daftar[idx].platnomor {
+					idx = i
+				}
+			}
+			temp = daftar[pass]
+			daftar[pass] = daftar[idx]
+			daftar[idx] = temp
+		}
+	}
+
+	func insertionsortservice(daftar *tabkendaraan, n int) {
 		var pass, i int
 		var temp kendaraan
 		pass = 1
@@ -354,7 +374,7 @@ import "fmt"
 		var jumlahhasil,i,k,found int
 		var periode string
 		for i = 0; i<n; i++{
-			periode = daftar[i].tanggalservice[0:4]+"-" + daftar[i].tanggalservice[5:7]
+			periode = daftar[i].tanggalservice[0:4]+"-" + daftar[i].tanggalservice[5:7]+"-"+daftar[i].tanggalservice[8:10]
 			found = -1
 			k = 0
 			for k < jumlahhasil && found == -1{
@@ -406,6 +426,7 @@ import "fmt"
 			fmt.Println(hasil[i].jenis, hasil[i].jumlah)
 		}
 	}
+	
 	func main() {
 		var daftarkendaraan tabkendaraan
 		var daftarpemilik tabpemilik
@@ -434,7 +455,8 @@ import "fmt"
 				fmt.Println("2. Tampilkan Data Kendaraan")
 				fmt.Println("3. Ubah Data Kendaraan")
 				fmt.Println("4. Hapus Data Kendaraan")
-				fmt.Print("Pilih 1-4: ")
+				fmt.Println("0. Kembali")
+				fmt.Print("Pilih 0-4: ")
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
@@ -452,7 +474,8 @@ import "fmt"
 				fmt.Println("2. Tampilkan Data Pemilik")
 				fmt.Println("3. Ubah Data Pemilik")
 				fmt.Println("4. Hapus Data Pemilik")
-				fmt.Print("Pilih 1-4: ")
+				fmt.Println("0. Kembali")
+				fmt.Print("Pilih 0-4: ")
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
@@ -468,7 +491,8 @@ import "fmt"
 				fmt.Println("+++ AutoCare +++")
 				fmt.Println("1. Tambah Data Riwayat Service ")
 				fmt.Println("2. Tampilkan Data Riwayat Service")
-				fmt.Print("Pilih 1-2: ")
+				fmt.Println("0. Kembali")
+				fmt.Print("Pilih 0-2: ")
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
@@ -480,11 +504,12 @@ import "fmt"
 				fmt.Println("+++ AutoCare +++")
 				fmt.Println("1. Cari Data Kendaraan Menggunakan Sequential Search ")
 				fmt.Println("2. Cari Data Kendaraan Menggunakan Binary Search")
-				fmt.Print("Pilih 1-2: ")
+				fmt.Println("0. Kembali")
+				fmt.Print("Pilih 0-2: ")
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
-					fmt.Print("Masukkan Nomor Plat Kendaraan Yang Ingin Dicari")
+					fmt.Print("Masukkan Nomor Plat Kendaraan Yang Ingin Dicari: ")
 					fmt.Scan(&target)
 					idx = seqsearchkendaraan(daftarkendaraan,jumlahkendaraan,target)
 					if idx == -1{
@@ -494,9 +519,9 @@ import "fmt"
 							tampilkendaraan(daftarkendaraan,idx)
 						}
 					case 2:
-						fmt.Print("Masukkan Nomor Plat Kendaraan Yang Ingin Dicari")
+						fmt.Print("Masukkan Nomor Plat Kendaraan Yang Ingin Dicari :")
 						fmt.Scan(&target)
-						selectionsort(&daftarkendaraan,jumlahkendaraan)
+						selectionsortplat(&daftarkendaraan,jumlahkendaraan)
 						idx = binsearchkendaraan(daftarkendaraan,jumlahkendaraan,target)
 						if idx == -1{
 							fmt.Println("Data Tidak Ditemukan")
@@ -509,21 +534,25 @@ import "fmt"
 						fmt.Println("+++ AutoCare +++")
 						fmt.Println("1. Mengurutkan Data Kendaraan Menggunakan Selection Sort")
 						fmt.Println("2. Mengurutkan Data Kendaraan Menggunakan Insertion Sort")
-						fmt.Print("Pilih 1-2: ")
+						fmt.Println("0. Kembali")
+						fmt.Print("Pilih 0-2: ")
 						fmt.Scan(&subpilihan)
 						switch subpilihan{
 						case 1:
-							selectionsort(&daftarkendaraan,jumlahkendaraan)
+							selectionsorttahun(&daftarkendaraan,jumlahkendaraan)
 							fmt.Println("Data berhasil diurutkan berdasarkan tahun produksi")
+							bacakendaraan(daftarkendaraan,jumlahkendaraan)
 						case 2:
-							insertionsort(&daftarkendaraan,jumlahkendaraan)
+							insertionsortservice(&daftarkendaraan,jumlahkendaraan)
 							fmt.Println("Data berhasil diurutkan berdasarkan tanggal service")
+							bacakendaraan(daftarkendaraan,jumlahkendaraan)
 						}
 				case 6:
 						fmt.Println("+++ AutoCare +++")
 						fmt.Println("1. Menampilkan Statistik Jumlah Kendaraan Yang Diservice  ")
 						fmt.Println("2. Menampilkan Statistik Kategori Kerusakan Yang Paling Sering Muncul")
-						fmt.Print("Pilih 1-2: ")
+						fmt.Println("0. Kembali")
+						fmt.Print("Pilih 0-2: ")
 						fmt.Scan(&subpilihan)
 						switch subpilihan{
 						case 1:
