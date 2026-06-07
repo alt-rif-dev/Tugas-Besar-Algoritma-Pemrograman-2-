@@ -38,7 +38,7 @@ import "fmt"
 	// Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
 	func inputkendaraan(daftar *tabkendaraan,  n int) {
 		var i int
-		for i = 0; i<n; i++{
+		for i = 0; i < n; i++{
 			fmt.Print("Plat Nomor: ")
 			fmt.Scan(&daftar[i].platnomor)
 			fmt.Print("Merek: ")
@@ -183,7 +183,7 @@ import "fmt"
 	}
 
 	func hapuspemilik(daftar *tabpemilik,n *int){
-		var idx,i,target int
+		var idx, i, target int
 		fmt.Print("Masukkan ID pemilik yang ingin dihapus: ")
 		fmt.Scan(&target)
 		idx = seqsearchpemilik(*daftar,*n,target)
