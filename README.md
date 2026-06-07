@@ -1,9 +1,10 @@
-AutoCare
+# 🚗 AutoCare
 
-AutoCare adalah aplikasi berbasis terminal yang dibuat menggunakan bahasa Go untuk membantu pengelolaan data kendaraan, pemilik kendaraan, dan riwayat servis.
-Fitur
+AutoCare adalah aplikasi berbasis terminal yang dibuat menggunakan bahasa Go untuk membantu pengelolaan data kendaraan, pemilik kendaraan, dan riwayat servis. Program ini juga menyediakan fitur pencarian, pengurutan, serta statistik data servis kendaraan.
 
-1. Pengelolaan Data Kendaraan (CRUD)
+## 📋 Fitur
+
+### 1. Pengelolaan Data Kendaraan (CRUD)
 - Tambah data kendaraan
 - Tampilkan data kendaraan
 - Ubah data kendaraan
@@ -15,7 +16,7 @@ Data kendaraan meliputi:
 - Tahun produksi
 - Tanggal servis terakhir
 
-2. Pengelolaan Data Pemilik (CRUD)
+### 2. Pengelolaan Data Pemilik (CRUD)
 - Tambah data pemilik
 - Tampilkan data pemilik
 - Ubah data pemilik
@@ -26,7 +27,7 @@ Data pemilik meliputi:
 - ID pemilik
 - Kontak
 
-3. Riwayat Servis Kendaraan
+### 3. Riwayat Servis Kendaraan
 - Tambah data servis
 - Tampilkan data servis
 
@@ -36,7 +37,7 @@ Data servis meliputi:
 - Jenis kerusakan
 - Biaya servis
 
-4. Pencarian Data Kendaraan
+### 4. Pencarian Data Kendaraan
 Menggunakan:
 - Sequential Search
 - Binary Search
@@ -44,18 +45,18 @@ Menggunakan:
 Pencarian dilakukan berdasarkan:
 - Plat nomor kendaraan
 
-5. Pengurutan Data Kendaraan
+### 5. Pengurutan Data Kendaraan
 Menggunakan:
 - Selection Sort (berdasarkan tahun produksi)
 - Insertion Sort (berdasarkan tanggal servis terakhir)
 
-6. Statistik
+### 6. Statistik
 - Statistik jumlah kendaraan yang diservis
 - Statistik kategori kerusakan yang paling sering muncul
 
 ---
 
-## Struktur Data
+## 🛠 Struktur Data
 
 ### Kendaraan
 ```go
@@ -88,7 +89,7 @@ type riwayatservice struct {
 
 ---
 
-## Algoritma yang Digunakan
+## 📚 Algoritma yang Digunakan
 
 ### Searching
 - Sequential Search
@@ -102,6 +103,7 @@ type riwayatservice struct {
 - Pengelompokan data servis berdasarkan tanggal
 - Penghitungan frekuensi jenis kerusakan
 
+---
 
 ## 🖥️ Menu Utama
 
@@ -119,7 +121,7 @@ type riwayatservice struct {
 
 ---
 
-## Anggota Pengembang
+## 👨‍💻 Tim Pengembang
 
 ### Raden Hasbi Radhitya N.
 Kontribusi:
@@ -135,7 +137,7 @@ Kontribusi:
 
 ---
 
-## Tujuan Proyek
+## 🎯 Tujuan Proyek
 
 Proyek ini dibuat untuk menerapkan konsep:
 - Struct dan Array dalam Go
@@ -146,7 +148,7 @@ Proyek ini dibuat untuk menerapkan konsep:
 - Pengolahan Statistik Data
 - Pemrograman Terstruktur
 
-
+---
 
 ## 📄 Lisensi
 
