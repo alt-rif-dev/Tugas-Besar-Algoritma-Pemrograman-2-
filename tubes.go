@@ -27,11 +27,11 @@ import "fmt"
 		jumlah int
 	}
 
-	type tabkendaraan [nmax-1]kendaraan
-	type tabpemilik [nmax-1]pemilik
-	type tabservice [nmax-1]riwayatservice
-	type tabstat [nmax-1]statbulan
-	type tabkerusakan [nmax-1]statkerusakan
+	type tabkendaraan [nmax]kendaraan
+	type tabpemilik [nmax]pemilik
+	type tabservice [nmax]riwayatservice
+	type tabstat [nmax]statbulan
+	type tabkerusakan [nmax]statkerusakan
 
 	// CRUD KENDARAAN
 	// Raden Hasbi 
