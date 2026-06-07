@@ -27,51 +27,43 @@ import "fmt"
 		jumlah int
 	}
 
-	type tabkendaraan [nmax]kendaraan
-	type tabpemilik [nmax]pemilik
-	type tabservice [nmax]riwayatservice
-	type tabstat [nmax]statbulan
-	type tabkerusakan [nmax]statkerusakan
+	type tabkendaraan [nmax-1]kendaraan
+	type tabpemilik [nmax-1]pemilik
+	type tabservice [nmax-1]riwayatservice
+	type tabstat [nmax-1]statbulan
+	type tabkerusakan [nmax-1]statkerusakan
 
 	// CRUD KENDARAAN 
 	// Hasbi: Ini procedure2 crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
 	// Klo ada tambahan tambah aja \\ 25-05-2026
-	func inputkendaraan(daftar *tabkendaraan,  n *int) {
-		var k kendaraan
-		if *n >= nmax {
-			fmt.Println("Data Penuh")
-		} else {
+	func inputkendaraan(daftar *tabkendaraan,  n int) {
+		var i int
+		for i = 0; i<n; i++{
 			fmt.Print("Plat Nomor: ")
-			fmt.Scan(&k.platnomor)
+			fmt.Scan(&daftar[i].platnomor)
 			fmt.Print("Merek: ")
-			fmt.Scan(&k.merek)
+			fmt.Scan(&daftar[i].merek)
 			fmt.Print("Model: ")
-			fmt.Scan(&k.model)
+			fmt.Scan(&daftar[i].model)
 			fmt.Print("Tahun Produksi: ")
-			fmt.Scan(&k.tahunproduksi)
+			fmt.Scan(&daftar[i].tahunproduksi)
 			fmt.Print("Tanggal Servis Terakhir (Tahun-Bulan-Hari): ")
-			fmt.Scan(&k.tglserviceterakir)
-			daftar[*n] = k
-			*n++
-			fmt.Println("Kendaraan berhasil ditambahkan")
+			fmt.Scan(&daftar[i].tglserviceterakir)
 			}
+			fmt.Println("Kendaraan berhasil ditambahkan")
 	}
 
 	func bacakendaraan(daftar tabkendaraan,n int){
 		var i int
-		if  n == 0{
-			fmt.Println("Data Kosong")
-			}else{
-				fmt.Println("+++ AutoCare +++")
-				for i = 0; i<n; i++{
-					fmt.Println("Plat Nomor:", daftar[i].platnomor)
-					fmt.Println("Merek:", daftar[i].merek)
-					fmt.Println("Model:", daftar[i].model)
-					fmt.Println("Tahun Produksi:", daftar[i].tahunproduksi)
-					fmt.Println("Tgl Service:", daftar[i].tglserviceterakir)
-					fmt.Println("---")	
-					}
-				}
+		fmt.Println("+++ AutoCare +++")
+		for i = 0; i<n; i++{
+			fmt.Println("Plat Nomor:", daftar[i].platnomor)
+			fmt.Println("Merek:", daftar[i].merek)
+			fmt.Println("Model:", daftar[i].model)
+			fmt.Println("Tahun Produksi:", daftar[i].tahunproduksi)
+			fmt.Println("Tgl Service:", daftar[i].tglserviceterakir)
+			fmt.Println("---")	
+		}
 	}
 
 	func ubahkendaraan(daftar *tabkendaraan, n int ){
@@ -145,21 +137,17 @@ import "fmt"
 
 	// CRUD PEMILIK
 	// 
-	func inputpemilik(daftar *tabpemilik,  n *int) {
-		var k pemilik
-		if *n >= nmax {
-			fmt.Println("Data Penuh")
-		}else{
+	func inputpemilik(daftar *tabpemilik,  n int) {
+	var i int
+	for i = 0; i<n; i++{
 			fmt.Print("Nama: ")
-			fmt.Scan(&k.nama)
+			fmt.Scan(&daftar[i].nama)
 			fmt.Print("Id: ")
-			fmt.Scan(&k.id)
+			fmt.Scan(&daftar[i].id)
 			fmt.Print("Kontak (No Hp): ")
-			fmt.Scan(&k.kontak)
-			daftar[*n] = k
-			*n++
-			fmt.Println("Data pemilik berhasil ditambahkan")
+			fmt.Scan(&daftar[i].kontak)
 		}
+		fmt.Println("Data pemilik berhasil ditambahkan")
 	}
 
 	func bacapemilik(daftar tabpemilik, n int){
@@ -368,7 +356,7 @@ import "fmt"
 		return  -1 
 	}
 
-	// stat & kerusakan
+	// statistik & kerusakan
 	func statistikperbulan(daftar tabservice,n int){
 		var hasil tabstat
 		var jumlahhasil,i,k,found int
@@ -460,7 +448,9 @@ import "fmt"
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
-					inputkendaraan(&daftarkendaraan,&jumlahkendaraan)
+					fmt.Print("Masukkan Jumlah Data Kendaraan Yang Ingin Di Input: ")
+					fmt.Scan(&jumlahkendaraan)
+					inputkendaraan(&daftarkendaraan,jumlahkendaraan)
 				case 2:
 					bacakendaraan(daftarkendaraan,jumlahkendaraan)
 				case 3:
@@ -479,7 +469,9 @@ import "fmt"
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
-					inputpemilik(&daftarpemilik,&jumlahpemilik)
+					fmt.Print("Masukkan Jumlah Data Pemilik Yang Ingin Di Input: ")
+					fmt.Scan(&jumlahpemilik)
+					inputpemilik(&daftarpemilik,jumlahpemilik)
 				case 2:
 					bacapemilik(daftarpemilik,jumlahpemilik)
 				case 3:
