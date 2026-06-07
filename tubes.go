@@ -5,7 +5,7 @@ import "fmt"
 	const nmax = 999
 
 	type kendaraan struct {
-		platnomor, merek, model, tglserviceterakir string
+		platnomor, merek, tglserviceterakir string
 		tahunproduksi int
 	}
 	type pemilik struct {
@@ -13,7 +13,7 @@ import "fmt"
 		id int
 	}
 	type riwayatservice struct{
-		plat,tanggalservice,jeniskerusakan,keterangan string
+		plat,tanggalservice,jeniskerusakan string
 		biaya int
 	}
 
@@ -43,8 +43,6 @@ import "fmt"
 			fmt.Scan(&daftar[i].platnomor)
 			fmt.Print("Merek: ")
 			fmt.Scan(&daftar[i].merek)
-			fmt.Print("Model: ")
-			fmt.Scan(&daftar[i].model)
 			fmt.Print("Tahun Produksi: ")
 			fmt.Scan(&daftar[i].tahunproduksi)
 			fmt.Print("Tanggal Servis Terakhir (Tahun-Bulan-Hari): ")
@@ -59,7 +57,6 @@ import "fmt"
 		for i = 0; i<n; i++{
 			fmt.Println("Plat Nomor:", daftar[i].platnomor)
 			fmt.Println("Merek:", daftar[i].merek)
-			fmt.Println("Model:", daftar[i].model)
 			fmt.Println("Tahun Produksi:", daftar[i].tahunproduksi)
 			fmt.Println("Tgl Service:", daftar[i].tglserviceterakir)
 			fmt.Println("---")	
@@ -85,12 +82,6 @@ import "fmt"
 			fmt.Scan(&baru)
 			if baru != "-"{
 				daftar[idx].merek = baru
-			}
-			
-			fmt.Print("Masukkan model kendaraan baru ( '-' untuk skip): ")
-			fmt.Scan(&baru)
-			if baru != "-"{
-				daftar[idx].model = baru
 			}
 			
 			fmt.Print("Masukkan tahun produksi  baru ( '0' untuk skip): ")
@@ -128,7 +119,6 @@ import "fmt"
 		fmt.Println("+++ AutoCare +++")
 		fmt.Println("Plat Nomor:",daftar[n].platnomor)
 		fmt.Println("Merek:",daftar[n].merek)
-		fmt.Println("Model:",daftar[n].model)
 		fmt.Println("Tahun Produksi:",daftar[n].tahunproduksi)
 		fmt.Println("Tanggal Service Terakhir:",daftar[n].tglserviceterakir)
 		fmt.Println("---")
@@ -153,23 +143,19 @@ import "fmt"
 
 	func bacapemilik(daftar tabpemilik, n int){
 		var i int
-		if  n == 0{
-			fmt.Println("Data Kosong")
-		}else{
-			fmt.Println("+++ AutoCare +++")
-			for i = 0; i<n; i++{
-				fmt.Println("Nama:", daftar[i].nama)
-				fmt.Println("Id:", daftar[i].id)
-				fmt.Println("Kontak (Nomor Hp):", daftar[i].kontak)
-				fmt.Println("---")
-			}
+		fmt.Println("+++ AutoCare +++")
+		for i = 0; i<n; i++{
+			fmt.Println("Nama:", daftar[i].nama)
+			fmt.Println("Id:", daftar[i].id)
+			fmt.Println("Kontak (Nomor Hp):", daftar[i].kontak)
+			fmt.Println("---")
 		}
 	}
 
 	func ubahpemilik(daftar *tabpemilik, n int ){
-		var target,baru string
-		var idx,baruint int
-		fmt.Print("Masukkan nama pemilik yang ingin diubah:")
+		var baru string
+		var idx,baruint,target int
+		fmt.Print("Masukkan ID pemilik yang ingin diubah:")
 		fmt.Scan(&target)
 		idx = seqsearchpemilik(*daftar,n,target)
 		if idx == -1{
@@ -181,7 +167,7 @@ import "fmt"
 				daftar[idx].nama = baru
 			}
 
-			fmt.Print("Masukkan id pemilik baru ( '0' untuk skip): ")
+			fmt.Print("Masukkan ID pemilik baru ( '0' untuk skip): ")
 			fmt.Scan(&baruint)
 			if baruint != 0{
 				daftar[idx].id = baruint
@@ -197,9 +183,8 @@ import "fmt"
 	}
 
 	func hapuspemilik(daftar *tabpemilik,n *int){
-		var target string
-		var idx,i int
-		fmt.Print("Masukkan nama pemilik yang ingin dihapus: ")
+		var idx,i,target int
+		fmt.Print("Masukkan ID pemilik yang ingin dihapus: ")
 		fmt.Scan(&target)
 		idx = seqsearchpemilik(*daftar,*n,target)
 		if idx == -1{
@@ -226,8 +211,6 @@ import "fmt"
 			fmt.Scan(&daftar[i].tanggalservice)
 			fmt.Print("Jenis Kerusakan: ")
 			fmt.Scan(&daftar[i].jeniskerusakan)
-			fmt.Print("Keterangan : ")
-			fmt.Scan(&daftar[i].keterangan)
 			fmt.Print("Biaya: ")
 			fmt.Scan(&daftar[i].biaya)
 		}
@@ -244,7 +227,6 @@ import "fmt"
 				fmt.Println("Plat Nomor:",daftar[i].plat)
 				fmt.Println("Tanggal Service:", daftar[i].tanggalservice)
 				fmt.Println("Jenis Kerusakan:", daftar[i].jeniskerusakan)
-				fmt.Println("Keterangan:",daftar[i].keterangan)
 				fmt.Println("Biaya:",daftar[i].biaya)
 			}
 		}
@@ -322,14 +304,14 @@ import "fmt"
 			}
 		return -1
 	}
-	func seqsearchpemilik(daftar tabpemilik,n int, target string)int {
+	func seqsearchpemilik(daftar tabpemilik,n int, target int)int {
 		// Algoritma Sequential Search dengan pencarian bedasarkan Nama Pemilik
 		var i int 
 		var found bool
 		found = false
 		i = 0
 		for i < n && !found{
-			if daftar[i].nama == target{
+			if daftar[i].id == target{
 				found = true
 			}else{
 				i++
