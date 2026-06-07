@@ -54,7 +54,7 @@ import "fmt"
 	func bacakendaraan(daftar tabkendaraan,n int){
 		var i int
 		fmt.Println("+++ AutoCare +++")
-		for i = 0; i<n; i++{
+		for i = 0; i < n; i++{
 			fmt.Println("Plat Nomor:", daftar[i].platnomor)
 			fmt.Println("Merek:", daftar[i].merek)
 			fmt.Println("Tahun Produksi:", daftar[i].tahunproduksi)
@@ -64,11 +64,11 @@ import "fmt"
 	}
 
 	func ubahkendaraan(daftar *tabkendaraan, n int ){
-		var target,baru string
-		var idx,baruint int
+		var target, baru string
+		var idx, baruint int
 		fmt.Print("Masukkan plat kendaraan yang ingin diubah:")
 		fmt.Scan(&target)
-		idx = seqsearchkendaraan(*daftar,n,target)
+		idx = seqsearchkendaraan(*daftar, n, target)
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
@@ -130,7 +130,7 @@ import "fmt"
 	// Ini procedure crud input, baca, ubah, hapus untuk data pemilik. 
 	func inputpemilik(daftar *tabpemilik,  n int) {
 	var i int
-	for i = 0; i<n; i++{
+	for i = 0; i < n; i++{
 			fmt.Print("Nama: ")
 			fmt.Scan(&daftar[i].nama)
 			fmt.Print("Id: ")
@@ -144,7 +144,7 @@ import "fmt"
 	func bacapemilik(daftar tabpemilik, n int){
 		var i int
 		fmt.Println("+++ AutoCare +++")
-		for i = 0; i<n; i++{
+		for i = 0; i < n; i++{
 			fmt.Println("Nama:", daftar[i].nama)
 			fmt.Println("Id:", daftar[i].id)
 			fmt.Println("Kontak (Nomor Hp):", daftar[i].kontak)
@@ -157,7 +157,7 @@ import "fmt"
 		var idx,baruint,target int
 		fmt.Print("Masukkan ID pemilik yang ingin diubah:")
 		fmt.Scan(&target)
-		idx = seqsearchpemilik(*daftar,n,target)
+		idx = seqsearchpemilik(*daftar, n, target)
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
@@ -186,7 +186,7 @@ import "fmt"
 		var idx, i, target int
 		fmt.Print("Masukkan ID pemilik yang ingin dihapus: ")
 		fmt.Scan(&target)
-		idx = seqsearchpemilik(*daftar,*n,target)
+		idx = seqsearchpemilik(*daftar, *n, target)
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
@@ -202,7 +202,7 @@ import "fmt"
 	// CR SERVICE
 	// Raden Hasbi
 	// Ini procedure CREATE dan READ untuk riwayat service. 
-	func inputservice(daftar *tabservice,n int){
+	func inputservice(daftar *tabservice, n int){
 		var i int 
 		for i = 0; i<n; i++{
 			fmt.Print("Plat Nomor: ")
@@ -217,17 +217,17 @@ import "fmt"
 		fmt.Println("Riwayat service berhasil ditambahkan")
 	}
 
-	func bacaservice(daftar tabservice,n int){
+	func bacaservice(daftar tabservice, n int){
 		var i int
 		if n == 0{
 			fmt.Println("Data Kosong")
 		}else{
 			fmt.Println("+++ AutoCare +++")
-			for i = 0; i<n; i++{
-				fmt.Println("Plat Nomor:",daftar[i].plat)
+			for i = 0; i < n; i++{
+				fmt.Println("Plat Nomor:", daftar[i].plat)
 				fmt.Println("Tanggal Service:", daftar[i].tanggalservice)
 				fmt.Println("Jenis Kerusakan:", daftar[i].jeniskerusakan)
-				fmt.Println("Biaya:",daftar[i].biaya)
+				fmt.Println("Biaya:", daftar[i].biaya)
 			}
 		}
 	}
