@@ -33,9 +33,9 @@ import "fmt"
 	type tabstat [nmax-1]statbulan
 	type tabkerusakan [nmax-1]statkerusakan
 
-	// CRUD KENDARAAN 
-	// Hasbi: Ini procedure2 crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
-	// Klo ada tambahan tambah aja \\ 25-05-2026
+	// CRUD KENDARAAN
+	// Raden Hasbi 
+	// Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
 	func inputkendaraan(daftar *tabkendaraan,  n int) {
 		var i int
 		for i = 0; i<n; i++{
@@ -136,7 +136,8 @@ import "fmt"
 	// END CRUD KENDARAAN
 
 	// CRUD PEMILIK
-	// 
+	// Raden Hasbi
+	// Ini procedure crud input, baca, ubah, hapus untuk data pemilik. 
 	func inputpemilik(daftar *tabpemilik,  n int) {
 	var i int
 	for i = 0; i<n; i++{
@@ -214,25 +215,23 @@ import "fmt"
 	// END CRUD PEMILIK
 
 	// CR SERVICE
-	func inputservice(daftar *tabservice,n *int){
-		var k riwayatservice
-		if *n >= nmax{
-			fmt.Println("Data Penuh")
-		}else{
+	// Raden Hasbi
+	// Ini procedure CREATE dan READ untuk riwayat service. 
+	func inputservice(daftar *tabservice,n int){
+		var i int 
+		for i = 0; i<n; i++{
 			fmt.Print("Plat Nomor: ")
-			fmt.Scan(&k.plat)
+			fmt.Scan(&daftar[i].plat)
 			fmt.Print("Tanggal Service: ")
-			fmt.Scan(&k.tanggalservice)
+			fmt.Scan(&daftar[i].tanggalservice)
 			fmt.Print("Jenis Kerusakan: ")
-			fmt.Scan(&k.jeniskerusakan)
+			fmt.Scan(&daftar[i].jeniskerusakan)
 			fmt.Print("Keterangan : ")
-			fmt.Scan(&k.keterangan)
+			fmt.Scan(&daftar[i].keterangan)
 			fmt.Print("Biaya: ")
-			fmt.Scan(&k.biaya)
-			daftar[*n]=k
-			*n++
-			fmt.Println("Riwayat service berhasil ditambahkan")
+			fmt.Scan(&daftar[i].biaya)
 		}
+		fmt.Println("Riwayat service berhasil ditambahkan")
 	}
 
 	func bacaservice(daftar tabservice,n int){
@@ -252,8 +251,11 @@ import "fmt"
 	}
 	// END CR SERVICE
 
-	// ALGORITHM
+	// ALGORITMA Searching dan Sorting
+	// Rifqi Bhadrika Adwitiya
+
 	func selectionsorttahun(daftar *tabkendaraan, n int) {
+		// Algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi
 		var i, pass, idx int
 		var temp kendaraan
 		for pass = 0; pass < n-1; pass++ {
@@ -270,6 +272,7 @@ import "fmt"
 	}
 
 	func selectionsortplat(daftar *tabkendaraan, n int) {
+		// Algoritma Selection Sort dengan pengurutan berdasarkan plat kendaraan
 		var i, pass, idx int
 		var temp kendaraan
 		for pass = 0; pass < n-1; pass++ {
@@ -286,6 +289,7 @@ import "fmt"
 	}
 
 	func insertionsortservice(daftar *tabkendaraan, n int) {
+		// Algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir
 		var pass, i int
 		var temp kendaraan
 		pass = 1
@@ -301,6 +305,7 @@ import "fmt"
 		}
 	}
 	func seqsearchkendaraan(daftar tabkendaraan,n int, target string)int {
+		// Algoritma Sequential Search dengan pencarian bedasarkan plat kendaraan
 		var i int 
 		var found bool
 		found = false
@@ -318,6 +323,7 @@ import "fmt"
 		return -1
 	}
 	func seqsearchpemilik(daftar tabpemilik,n int, target string)int {
+		// Algoritma Sequential Search dengan pencarian bedasarkan Nama Pemilik
 		var i int 
 		var found bool
 		found = false
@@ -335,6 +341,7 @@ import "fmt"
 		return -1
 	}
 	func binsearchkendaraan(daftar tabkendaraan,n int,target string)int{
+		// Algoritma Binary Search dengan pencarian bedasarkan plat kendaraan
 		var left,right,mid int
 		var found bool
 		left = 0
@@ -357,7 +364,10 @@ import "fmt"
 	}
 
 	// statistik & kerusakan
-	func statistikperbulan(daftar tabservice,n int){
+	// Rifqi Bhadrika Adwitiya
+	func statistikperbulan(daftar tabservice,n int){ 
+	// Procedure untuk menampilkan statistik service tiap bulan
+	// dengan menggunakan format tanggal: YYYY-MM-DD, kita menggunakan slice index 0:4 untuk tahun, 5:7 untuk bulan
 		var hasil tabstat
 		var jumlahhasil,i,k,found int
 		var periode string
@@ -387,6 +397,7 @@ import "fmt"
 	}
 
 	func statistikkerusakan(daftar tabservice,n int){
+	// Procedure untuk menampilkan statistik kategori kerusakan yang sering muncul
 		var hasil tabkerusakan
 		var jumlahhasil,i,k,found int
 		var jeniskerusakan string
@@ -488,7 +499,9 @@ import "fmt"
 				fmt.Scan(&subpilihan)
 				switch subpilihan{
 				case 1:
-					inputservice(&daftarservice,&jumlahservice)
+					fmt.Print("Masukkan Jumlah Data Pemilik Yang Ingin Di Input: ")
+					fmt.Scan(&jumlahservice)
+					inputservice(&daftarservice,jumlahservice)
 				case 2:
 					bacaservice(daftarservice, jumlahservice)
 				}
