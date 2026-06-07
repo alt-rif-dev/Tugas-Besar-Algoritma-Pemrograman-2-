@@ -34,7 +34,7 @@ import "fmt"
 	type tabkerusakan [nmax]statkerusakan
 
 	// CRUD KENDARAAN
-	// Raden Hasbi 
+	// Raden Hasbi Radhitya N.
 	// Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
 	func inputkendaraan(daftar *tabkendaraan,  n int) {
 		var i int
@@ -126,7 +126,7 @@ import "fmt"
 	// END CRUD KENDARAAN
 
 	// CRUD PEMILIK
-	// Raden Hasbi
+	// Raden Hasbi Radhitya N.
 	// Ini procedure crud input, baca, ubah, hapus untuk data pemilik. 
 	func inputpemilik(daftar *tabpemilik,  n int) {
 	var i int
@@ -200,7 +200,7 @@ import "fmt"
 	// END CRUD PEMILIK
 
 	// CR SERVICE
-	// Raden Hasbi
+	// Raden Hasbi Radhitya N.
 	// Ini procedure CREATE dan READ untuk riwayat service. 
 	func inputservice(daftar *tabservice, n int){
 		var i int 
