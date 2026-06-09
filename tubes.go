@@ -13,15 +13,11 @@ import "fmt"
 
 
 	// CRUD KENDARAAN
-	// Raden Hasbi 
+	// Raden Hasbi Radhitya N.
 	// Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
 	func inputkendaraan(daftar *tabkendaraan,  n int) {
 		var i int
 		for i = 0; i<n; i++{
-			fmt.Print("Nama Pemilik: ")
-			fmt.Scan(&daftar[i].nama)
-			fmt.Print("Kontak (Nomor Hp): ")
-			fmt.Scan(&daftar[i].kontak)
 			fmt.Print("Plat Nomor: ")
 			fmt.Scan(&daftar[i].platnomor)
 			fmt.Print("Merek: ")
@@ -42,8 +38,6 @@ import "fmt"
 		var i int
 		fmt.Println("+++ AutoCare +++")
 		for i = 0; i<n; i++{
-			fmt.Println("Nama Pemilik:", daftar[i].nama)
-			fmt.Println("Kontak:", daftar[i].kontak)
 			fmt.Println("Plat Nomor:", daftar[i].platnomor)
 			fmt.Println("Merek:", daftar[i].merek)
 			fmt.Println("Tahun Produksi:", daftar[i].tahunproduksi)
@@ -55,11 +49,11 @@ import "fmt"
 	}
 
 	func ubahkendaraan(daftar *tabkendaraan, n int ){
-		var target,baru string
-		var idx,baruint int
+		var target, baru string
+		var idx, baruint int
 		fmt.Print("Masukkan plat kendaraan yang ingin diubah:")
 		fmt.Scan(&target)
-		idx = seqsearchkendaraan(*daftar,n,target)
+		idx = seqsearchkendaraan(*daftar, n, target)
 		if idx == -1{
 			fmt.Println("Data tidak ditemukan")
 		}else{
