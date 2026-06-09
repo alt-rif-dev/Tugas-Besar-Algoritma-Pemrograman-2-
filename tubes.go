@@ -254,7 +254,7 @@ import "fmt"
 		var jumlahhasil,i,k,found int
 		var periode string
 		for i = 0; i<n; i++{
-			periode = daftar[i].tanggalperbaikan[0:4]+"-" + daftar[i].tanggalperbaikan[5:7]+"-"+daftar[i].tanggalperbaikan[8:10]
+			periode = daftar[i].tanggalperbaikan[0:4]+"-" + daftar[i].tanggalperbaikan[5:7]+"-"
 			found = -1
 			k = 0
 			for k < jumlahhasil && found == -1{
