@@ -15,9 +15,9 @@ import "fmt"
 	// CRUD KENDARAAN
 	// Raden Hasbi Radhitya N.
 	// Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin). 
-	func inputkendaraan(daftar *tabkendaraan,  n int) {
+	func inputkendaraan(daftar *tabkendaraan,  n int,total *int) {
 		var i int
-		for i = 0; i<n; i++{
+		for i = *total; i<n+*total; i++{
 			fmt.Print("Plat Nomor: ")
 			fmt.Scan(&daftar[i].platnomor)
 			fmt.Print("Merek: ")
@@ -31,6 +31,7 @@ import "fmt"
 			fmt.Print("Jenis Kerusakan (Gunakan '_' sebagai pengganti spasi): ")
 			fmt.Scan(&daftar[i].kerusakan)
 			}
+			*total = *total + n 
 			fmt.Println("Data Kendaraan Berhasil Ditambahkan")
 	}
 
@@ -203,6 +204,7 @@ import "fmt"
 			pass++
 		}
 	}
+
 	func seqsearchkendaraan(daftar tabkendaraan,n int, target string)int {
 		// Algoritma Sequential Search dengan pencarian bedasarkan plat kendaraan
 		var i int 
@@ -254,14 +256,15 @@ import "fmt"
 		var jumlahhasil,i,k,found int
 		var periode string
 		for i = 0; i<n; i++{
-			periode = daftar[i].tanggalperbaikan[0:4]+"-" + daftar[i].tanggalperbaikan[5:7]+"-"
+			if len(daftar[i].tanggalperbaikan)>= 7{
+			periode = daftar[i].tanggalperbaikan[0:4]+"-" + daftar[i].tanggalperbaikan[5:7]
 			found = -1
 			k = 0
 			for k < jumlahhasil && found == -1{
 				if hasil[k].tanggalperbaikan == periode{
 					found = k
 				}
-			k++
+				k++
 			}
 			if found != -1 {
 				hasil[found].jumlah++
@@ -271,6 +274,7 @@ import "fmt"
 				jumlahhasil++
 			}
 		}
+	}
 		fmt.Println("+++ AutoCare +++")
 		fmt.Println("Statistik Service per bulan:")
 		for i = 0; i< jumlahhasil; i++{
@@ -310,7 +314,7 @@ import "fmt"
 	
 	func main() {
 		var daftarkendaraan tabkendaraan
-		var jumlahkendaraan,pilihan,subpilihan,idx int
+		var jumlahkendaraan,pilihan,subpilihan,idx,jumlahbaru int
 		var target string
 		var selesai bool
 		selesai = false
@@ -318,6 +322,7 @@ import "fmt"
 		tambahData(&daftarkendaraan, &jumlahkendaraan, "Budi", "089998", "B9999", "Toyota", 2020, "2021-04-13", "2024-06-06", "Rem_Blong")
 		tambahData(&daftarkendaraan, &jumlahkendaraan, "Caca", "083210", "B5678", "Honda", 2015, "2023-05-05", "2024-06-06", "Body_Motor_Rusak")
 		tambahData(&daftarkendaraan, &jumlahkendaraan, "Duncan", "086767", "D6767", "Toyota", 2006, "2026-06-07", "2026-07-06", "Ganti_Ban")
+		tambahData(&daftarkendaraan, &jumlahkendaraan, "Enzen", "087676", "D7676", "Honda", 2007, "2026-05-12", "2026-07-07", "Ganti_Ban")
 		for !selesai {
 			fmt.Println("+++ AutoCare +++")
 			fmt.Println("Selamat Datang Di AutoCare")
@@ -335,8 +340,8 @@ import "fmt"
 			switch pilihan{
 			case 1:
 				fmt.Print("Masukkan Jumlah Kendaraan Yang Ingin Di Inputkan: ")
-				fmt.Scan(&jumlahkendaraan)
-				inputkendaraan(&daftarkendaraan,jumlahkendaraan)
+				fmt.Scan(&jumlahbaru)
+				inputkendaraan(&daftarkendaraan,jumlahbaru,&jumlahkendaraan)
 			case 2:
 				bacakendaraan(daftarkendaraan,jumlahkendaraan)
 			case 3:
