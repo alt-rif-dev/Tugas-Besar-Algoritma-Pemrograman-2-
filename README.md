@@ -11,33 +11,16 @@ AutoCare adalah aplikasi berbasis terminal yang dibuat menggunakan bahasa Go unt
 - Hapus data kendaraan
 
 Data kendaraan meliputi:
+- Nama Pemilik
+- Kontak
 - Plat nomor
 - Merek kendaraan
 - Tahun produksi
 - Tanggal servis terakhir
-
-### 2. Pengelolaan Data Pemilik (CRUD)
-- Tambah data pemilik
-- Tampilkan data pemilik
-- Ubah data pemilik
-- Hapus data pemilik
-
-Data pemilik meliputi:
-- Nama
-- ID pemilik
-- Kontak
-
-### 3. Riwayat Servis Kendaraan
-- Tambah data servis
-- Tampilkan data servis
-
-Data servis meliputi:
-- Plat kendaraan
-- Tanggal servis
+- Tanggal Perbaikan
 - Jenis kerusakan
-- Biaya servis
 
-### 4. Pencarian Data Kendaraan
+### 2. Pencarian Data Kendaraan
 Menggunakan:
 - Sequential Search
 - Binary Search
@@ -45,13 +28,13 @@ Menggunakan:
 Pencarian dilakukan berdasarkan:
 - Plat nomor kendaraan
 
-### 5. Pengurutan Data Kendaraan
+### 3. Pengurutan Data Kendaraan
 Menggunakan:
 - Selection Sort (berdasarkan tahun produksi)
 - Insertion Sort (berdasarkan tanggal servis terakhir)
 
-### 6. Statistik
-- Statistik jumlah kendaraan yang diservis
+### 4. Statistik
+- Statistik jumlah kendaraan yang diservis per bulan
 - Statistik kategori kerusakan yang paling sering muncul
 
 ---
@@ -61,29 +44,8 @@ Menggunakan:
 ### Kendaraan
 ```go
 type kendaraan struct {
-    platnomor string
-    merek string
-    tahunproduksi int
-    tglserviceterakir string
-}
-```
-
-### Pemilik
-```go
-type pemilik struct {
-    nama string
-    kontak string
-    id int
-}
-```
-
-### Riwayat Service
-```go
-type riwayatservice struct {
-    plat string
-    tanggalservice string
-    jeniskerusakan string
-    biaya int
+   platnomor, merek, tglserviceterakir,nama,kontak,tanggalperbaikan,kerusakan string
+		tahunproduksi,biaya,jumlah int
 }
 ```
 
@@ -110,12 +72,13 @@ type riwayatservice struct {
 ```text
 +++ AutoCare +++
 
-1. Pengelolaan Data Kendaraan
-2. Pengelolaan Data Pemilik
-3. Riwayat Servis Kendaraan
-4. Pencarian Data Kendaraan
-5. Pengurutan Data Kendaraan
-6. Statistik Data Kendaraan
+1. Input Data Kendaraan
+2. Tampilkan Data Kendaraan 
+3. Hapus Data Kendaraan
+4. Ubah Data Kendaraan
+5. Pencarian Data Kendaraan
+6. Pengurutan Data Kendaraan
+7. Statistik Data Kendaraan
 0. Keluar
 ```
 
@@ -126,9 +89,7 @@ type riwayatservice struct {
 ### Raden Hasbi Radhitya N.
 Kontribusi:
 - CRUD Data Kendaraan
-- CRUD Data Pemilik
-- CRUD Riwayat Servis
-
+- Main
 ### Rifqi Bhadrika Adwitiya
 Kontribusi:
 - Searching
