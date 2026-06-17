@@ -10,7 +10,7 @@ type kendaraan struct {
 }
 
 type tabkendaraan [nmax]kendaraan
-
+// Handling Eror Tanggal 
 func kabisat(tahun int) bool {
 	if tahun%400 == 0 || (tahun % 100 != 0 && tahun % 4 == 0)  {
 		return true
@@ -40,8 +40,9 @@ func cektanggal(tahun, bulan, hari int) bool {
 }
 
 func cekformattanggal(tgl string) string {
+	var tahun, bulan, hari int
 	if tgl == "-" {
-		return "-"
+		return "SALAH"
 	}
 
 	// Cek panjang string harus 10 karakter (Tahun-Bulan-Hari)
@@ -56,7 +57,6 @@ func cekformattanggal(tgl string) string {
 
 	// Konversi char jadi angka, - '0' biar jadi angka asli. 
 	// contoh tgl[0] = '2' di ascii = 50, 50-48 = 2 dikonversi jadi int 
-	var tahun, bulan, hari int
 	
 	tahun = int(tgl[0]-'0')*1000 + int(tgl[1]-'0')*100 + int(tgl[2]-'0')*10 + int(tgl[3]-'0')
 	bulan = int(tgl[5]-'0')*10 + int(tgl[6]-'0')
@@ -64,11 +64,11 @@ func cekformattanggal(tgl string) string {
 
 	
 	if cektanggal(tahun, bulan, hari) {
-		return tgl 
+		return tgl
 	}
 
 	return "SALAH"
-}
+}	
 
 // CRUD KENDARAAN
 // Raden Hasbi Radhitya N.
@@ -100,18 +100,17 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
 		}
-
 		valid = false
 		for !valid {
 			fmt.Print("Tanggal Perbaikan (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
 			
-			// Cukup tangkap 1 return value
+	
 			hasilCek = cekformattanggal(tempTgl) 
 			
 			if hasilCek != "SALAH" {
 				daftar[i].tanggalperbaikan = hasilCek
-				valid = true // Ini yang bikin perulangan berhenti (pengganti break)
+				valid = true 
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
@@ -141,9 +140,8 @@ func bacakendaraan(daftar tabkendaraan, n int) {
 }
 
 func ubahkendaraan(daftar *tabkendaraan, n int) {
-	var target, baru string
+	var target, baru, tempTgl, hasilCek string
 	var idx, baruint int
-	var tempTgl, hasilCek string 
 	var valid bool
 
 	fmt.Print("Masukkan plat kendaraan yang ingin diubah:")
@@ -248,6 +246,8 @@ func tampilkendaraan(daftar tabkendaraan, n int) {
 	fmt.Println("Tipe Kendaraan: ", daftar[n].tipekendaraan)
 	fmt.Println("Tahun Produksi: ", daftar[n].tahunproduksi)
 	fmt.Println("Tanggal Service Terakhir: ", daftar[n].tglserviceterakir)
+	fmt.Println("Tanggal Perbaikan: ", daftar[n].tanggalperbaikan)
+	fmt.Println("Jenis Kerusakan: ", daftar[n].kerusakan)
 	fmt.Println("---")
 }
 
@@ -401,12 +401,12 @@ func binsearchkendaraan(daftar tabkendaraan, n int, target string) int {
 // Rifqi Bhadrika Adwitiya
 func statistikperbulan(daftar tabkendaraan, n int) {
 	// Procedure untuk menampilkan statistik service tiap bulan
-	// dengan menggunakan format tanggal: YYYY-MM-DD, kita menggunakan slice index 0:4 untuk tahun, 5:7 untuk bulan
+	// karena format tanggal: Tahun-Bulan-Hari, pake slice index 0:4 untuk tahun, 5:7 untuk bulan
 	var hasil tabkendaraan
 	var jumlahhasil, i, k, found int
 	var periode, tipe string
 	for i = 0; i < n; i++ {
-		if len(daftar[i].tanggalperbaikan) >= 7 {
+		if len(daftar[i].tanggalperbaikan) >= 7 && len(daftar[i].tanggalperbaikan) <= 10{
 			periode = daftar[i].tanggalperbaikan[0:4] + "-" + daftar[i].tanggalperbaikan[5:7]
 			tipe = daftar[i].tipekendaraan
 			found = -1
