@@ -6,25 +6,19 @@ const nmax = 999
 
 type kendaraan struct {
 	platnomor, tipekendaraan, tglserviceterakir, nama, kontak, tanggalperbaikan, kerusakan string
-	tahunproduksi, biaya, jumlah                                                           int
+	tahunproduksi, biaya, jumlah int
 }
 
 type tabkendaraan [nmax]kendaraan
 
-func isKabisat(tahun int) bool {
-	if tahun%400 == 0 {
-		return true
-	}
-	if tahun%100 == 0 {
-		return false
-	}
-	if tahun%4 == 0 {
+func kabisat(tahun int) bool {
+	if tahun%400 == 0 || (tahun % 100 != 0 && tahun % 4 == 0)  {
 		return true
 	}
 	return false
 }
 
-func isValidDate(tahun, bulan, hari int) bool {
+func cektanggal(tahun, bulan, hari int) bool {
 	if bulan < 1 || bulan > 12 {
 		return false
 	}
@@ -37,7 +31,7 @@ func isValidDate(tahun, bulan, hari int) bool {
 	case 4, 6, 9, 11:
 		return hari <= 30
 	case 2:
-		if isKabisat(tahun) {
+		if kabisat(tahun) {
 			return hari <= 29
 		}
 		return hari <= 28
@@ -45,18 +39,35 @@ func isValidDate(tahun, bulan, hari int) bool {
 	return false
 }
 
-func validasiDanFormatTanggal(tgl string) (bool, string) {
+func cekformattanggal(tgl string) string {
 	if tgl == "-" {
-		return true, "-"
+		return "-"
 	}
-	var thn, bln, hr int
-	n, _ := fmt.Sscanf(tgl, "%d-%d-%d", &thn, &bln, &hr)
-	if n == 3 {
-		if isValidDate(thn, bln, hr) {
-			return true, fmt.Sprintf("%04d-%02d-%02d", thn, bln, hr)
-		}
+
+	// Cek panjang string harus 10 karakter (Tahun-Bulan-Hari)
+	if len(tgl) != 10 {
+		return "SALAH"
 	}
-	return false, tgl
+
+	// Cek posisi strip ('-') di index 4 & 7 
+		if tgl[4] != '-' || tgl[7] != '-' {
+		return "SALAH"
+	}
+
+	// Konversi char jadi angka, - '0' biar jadi angka asli. 
+	// contoh tgl[0] = '2' di ascii = 50, 50-48 = 2 dikonversi jadi int 
+	var tahun, bulan, hari int
+	
+	tahun = int(tgl[0]-'0')*1000 + int(tgl[1]-'0')*100 + int(tgl[2]-'0')*10 + int(tgl[3]-'0')
+	bulan = int(tgl[5]-'0')*10 + int(tgl[6]-'0')
+	hari = int(tgl[8]-'0')*10 + int(tgl[9]-'0')
+
+	
+	if cektanggal(tahun, bulan, hari) {
+		return tgl 
+	}
+
+	return "SALAH"
 }
 
 // CRUD KENDARAAN
@@ -64,8 +75,9 @@ func validasiDanFormatTanggal(tgl string) (bool, string) {
 // Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin).
 func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 	var i int
-	var tempTgl string
+	var tempTgl, hasilCek string
 	var valid bool
+	valid = false
 	for i = *total; i < n+*total; i++ {
 		fmt.Print("Nama Pemilik: ")
 		fmt.Scan(&daftar[i].nama)
@@ -77,14 +89,13 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		fmt.Scan(&daftar[i].tipekendaraan)
 		fmt.Print("Tahun Produksi: ")
 		fmt.Scan(&daftar[i].tahunproduksi)
-
-		valid = false
 		for !valid {
 			fmt.Print("Tanggal Service Terakhir (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
-			valid, tempTgl = validasiDanFormatTanggal(tempTgl)
-			if valid {
-				daftar[i].tglserviceterakir = tempTgl
+			hasilCek = cekformattanggal(tempTgl) 
+			if hasilCek != "SALAH" {
+				daftar[i].tglserviceterakir = hasilCek
+				valid = true 
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
@@ -94,9 +105,13 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		for !valid {
 			fmt.Print("Tanggal Perbaikan (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
-			valid, tempTgl = validasiDanFormatTanggal(tempTgl)
-			if valid {
-				daftar[i].tanggalperbaikan = tempTgl
+			
+			// Cukup tangkap 1 return value
+			hasilCek = cekformattanggal(tempTgl) 
+			
+			if hasilCek != "SALAH" {
+				daftar[i].tanggalperbaikan = hasilCek
+				valid = true // Ini yang bikin perulangan berhenti (pengganti break)
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
@@ -118,7 +133,7 @@ func bacakendaraan(daftar tabkendaraan, n int) {
 		fmt.Println("Plat Nomor: ", daftar[i].platnomor)
 		fmt.Println("Tipe Kendaraan: ", daftar[i].tipekendaraan)
 		fmt.Println("Tahun Produksi: ", daftar[i].tahunproduksi)
-		fmt.Println("Tgl Service: ", daftar[i].tglserviceterakir)
+		fmt.Println("Tanggal Service Terakhir: ", daftar[i].tglserviceterakir)
 		fmt.Println("Tanggal Perbaikan: ", daftar[i].tanggalperbaikan)
 		fmt.Println("Jenis Kerusakan: ", daftar[i].kerusakan)
 		fmt.Println("---")
@@ -128,7 +143,7 @@ func bacakendaraan(daftar tabkendaraan, n int) {
 func ubahkendaraan(daftar *tabkendaraan, n int) {
 	var target, baru string
 	var idx, baruint int
-	var tempTgl string
+	var tempTgl, hasilCek string 
 	var valid bool
 
 	fmt.Print("Masukkan plat kendaraan yang ingin diubah:")
@@ -171,10 +186,10 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 		for !valid {
 			fmt.Print("Masukkan tgl service terakhir baru ( '-' untuk skip): ")
 			fmt.Scan(&tempTgl)
-			valid, tempTgl = validasiDanFormatTanggal(tempTgl)
-			if valid {
-				if tempTgl != "-" {
-					daftar[idx].tglserviceterakir = tempTgl
+			hasilCek = cekformattanggal(tempTgl)
+			if hasilCek != "SALAH" {
+				if hasilCek != "-" {
+					daftar[idx].tglserviceterakir = hasilCek
 				}
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
@@ -185,11 +200,15 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 		for !valid {
 			fmt.Print("Masukkan tgl perbaikan baru ( '-' untuk skip): ")
 			fmt.Scan(&tempTgl)
-			valid, tempTgl = validasiDanFormatTanggal(tempTgl)
-			if valid {
-				if tempTgl != "-" {
-					daftar[idx].tanggalperbaikan = tempTgl
+			
+			
+			hasilCek = cekformattanggal(tempTgl)
+			
+			if hasilCek != "SALAH" {
+				if hasilCek != "-" {
+					daftar[idx].tanggalperbaikan = hasilCek
 				}
+				valid = true 
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
@@ -269,7 +288,7 @@ func selectionsorttahunasc(daftar *tabkendaraan, n int) {
 }
 
 func selectionsorttahundesc(daftar *tabkendaraan, n int) {
-	// Algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Ascending
+	// Algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Descending
 	var i, pass, idx int
 	var temp kendaraan
 	for pass = 0; pass < n-1; pass++ {
@@ -303,7 +322,7 @@ func selectionsortplat(daftar *tabkendaraan, n int) {
 }
 
 func insertionsortserviceasc(daftar *tabkendaraan, n int) {
-	// Algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir ascending
+	// Algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir Ascending
 	var pass, i int
 	var temp kendaraan
 	pass = 1
@@ -518,10 +537,10 @@ func main() {
 			}
 		case 6:
 			fmt.Println("+++ AutoCare +++")
-			fmt.Println("1. Mengurutkan Data Kendaraan Menggunakan Selection Sort Ascending (Tahun)")
-			fmt.Println("2. Mengurutkan Data Kendaraan Menggunakan Selection Sort Descending (Tahun)")
-			fmt.Println("3. Mengurutkan Data Kendaraan Menggunakan Insertion Sort Ascending (Tanggal Service)")
-			fmt.Println("4. Mengurutkan Data Kendaraan Menggunakan Insertion Sort Descending (Tanggal Service)")
+			fmt.Println("1. Mengurutkan Data Kendaraan Menggunakan Selection Sort Ascending (Tahun Produksi)")
+			fmt.Println("2. Mengurutkan Data Kendaraan Menggunakan Selection Sort Descending (Tahun Produksi)")
+			fmt.Println("3. Mengurutkan Data Kendaraan Menggunakan Insertion Sort Ascending (Tanggal Service Terakhir)")
+			fmt.Println("4. Mengurutkan Data Kendaraan Menggunakan Insertion Sort Descending (Tanggal Service Terkahir)")
 			fmt.Println("0. Kembali")
 			fmt.Print("Pilih 0-4: ")
 			fmt.Scan(&subpilihan)
