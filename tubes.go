@@ -104,8 +104,6 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		for !valid {
 			fmt.Print("Tanggal Perbaikan (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
-			
-	
 			hasilCek = cekformattanggal(tempTgl) 
 			
 			if hasilCek != "SALAH" {
@@ -115,7 +113,6 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
 		}
-
 		fmt.Print("Jenis Kerusakan (Gunakan '_' sebagai pengganti spasi): ")
 		fmt.Scan(&daftar[i].kerusakan)
 	}
@@ -144,7 +141,7 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 	var idx, baruint int
 	var valid bool
 
-	fmt.Print("Masukkan plat kendaraan yang ingin diubah:")
+	fmt.Print("Masukkan plat kendaraan yang ingin diubah: ")
 	fmt.Scan(&target)
 	idx = seqsearchkendaraan(*daftar, n, target)
 	if idx == -1 {
@@ -186,9 +183,7 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 			fmt.Scan(&tempTgl)
 			hasilCek = cekformattanggal(tempTgl)
 			if hasilCek != "SALAH" {
-				if hasilCek != "-" {
 					daftar[idx].tglserviceterakir = hasilCek
-				}
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
@@ -198,14 +193,9 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 		for !valid {
 			fmt.Print("Masukkan tgl perbaikan baru ( '-' untuk skip): ")
 			fmt.Scan(&tempTgl)
-			
-			
 			hasilCek = cekformattanggal(tempTgl)
-			
 			if hasilCek != "SALAH" {
-				if hasilCek != "-" {
-					daftar[idx].tanggalperbaikan = hasilCek
-				}
+				daftar[idx].tanggalperbaikan = hasilCek
 				valid = true 
 			} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
