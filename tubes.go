@@ -41,10 +41,6 @@ func cektanggal(tahun, bulan, hari int) bool {
 
 func cekformattanggal(tgl string) string {
 	var tahun, bulan, hari int
-	if tgl == "-" {
-		return "SALAH"
-	}
-
 	// Cek panjang string harus 10 karakter (Tahun-Bulan-Hari)
 	if len(tgl) != 10 {
 		return "SALAH"
@@ -77,7 +73,6 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 	var i int
 	var tempTgl, hasilCek string
 	var valid bool
-	valid = false
 	for i = *total; i < n+*total; i++ {
 		fmt.Print("Nama Pemilik: ")
 		fmt.Scan(&daftar[i].nama)
@@ -89,6 +84,7 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		fmt.Scan(&daftar[i].tipekendaraan)
 		fmt.Print("Tahun Produksi: ")
 		fmt.Scan(&daftar[i].tahunproduksi)
+		valid = false
 		for !valid {
 			fmt.Print("Tanggal Service Terakhir (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
@@ -96,7 +92,7 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 			if hasilCek != "SALAH" {
 				daftar[i].tglserviceterakir = hasilCek
 				valid = true 
-			} else {
+				} else {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
 		}
@@ -104,6 +100,8 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		for !valid {
 			fmt.Print("Tanggal Perbaikan (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
+			
+			
 			hasilCek = cekformattanggal(tempTgl) 
 			
 			if hasilCek != "SALAH" {
@@ -113,6 +111,7 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
 		}
+
 		fmt.Print("Jenis Kerusakan (Gunakan '_' sebagai pengganti spasi): ")
 		fmt.Scan(&daftar[i].kerusakan)
 	}
@@ -178,37 +177,49 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 		}
 
 		valid = false
-		for !valid {
-			fmt.Print("Masukkan tgl service terakhir baru ( '-' untuk skip): ")
-			fmt.Scan(&tempTgl)
-			hasilCek = cekformattanggal(tempTgl)
-			if hasilCek != "SALAH" {
-					daftar[idx].tglserviceterakir = hasilCek
-			} else {
-				fmt.Println("Tanggal tidak valid atau format salah!")
-			}
-		}
+        for !valid {
+            fmt.Print("Masukkan tgl service terakhir baru ( 'SKIP' untuk skip): ")
+            fmt.Scan(&tempTgl)
+            if tempTgl == "SKIP" {
+                valid = true 
+            } else {
+                hasilCek = cekformattanggal(tempTgl)
+                if hasilCek != "SALAH" {
+                    daftar[idx].tglserviceterakir = hasilCek
+                    valid = true 
+                } else {
+                    fmt.Println("Tanggal tidak valid atau format salah!")
+                }
+            }
+        }
 
-		valid = false
-		for !valid {
-			fmt.Print("Masukkan tgl perbaikan baru ( '-' untuk skip): ")
-			fmt.Scan(&tempTgl)
-			hasilCek = cekformattanggal(tempTgl)
-			if hasilCek != "SALAH" {
-				daftar[idx].tanggalperbaikan = hasilCek
-				valid = true 
-			} else {
-				fmt.Println("Tanggal tidak valid atau format salah!")
-			}
-		}
+        valid = false
+        for !valid {
+            fmt.Print("Masukkan tgl perbaikan baru ( 'SKIP' untuk skip): ")
+            fmt.Scan(&tempTgl)
+            
+            // Cegat "SKIP" khusus untuk tanggal
+            if tempTgl == "SKIP" {
+                valid = true // Langsung keluar loop, data lama aman
+            } else {
+                hasilCek = cekformattanggal(tempTgl)
+                if hasilCek != "SALAH" {
+                    daftar[idx].tanggalperbaikan = hasilCek
+                    valid = true 
+                } else {
+                    fmt.Println("Tanggal tidak valid atau format salah!")
+                }
+            }
+        }
 
-		fmt.Print("Masukkan jenis kerusakan baru ( '-' untuk skip): ")
-		fmt.Scan(&baru)
-		if baru != "-" {
-			daftar[idx].kerusakan = baru
-		}
-	}
-	fmt.Println("Data Kendaraan Berhasil Diubah ")
+        fmt.Print("Masukkan jenis kerusakan baru ( '-' untuk skip): ")
+        fmt.Scan(&baru)
+        if baru != "-" {
+            daftar[idx].kerusakan = baru
+        }
+        
+        fmt.Println("Data Kendaraan Berhasil Diubah ")
+    }
 }
 
 func hapuskendaraan(daftar *tabkendaraan, n *int) {
