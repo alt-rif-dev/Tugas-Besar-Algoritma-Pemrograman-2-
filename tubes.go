@@ -250,7 +250,7 @@ func tambahData(daftar *tabkendaraan, n *int, nama, kontak, plat, tipekendaraan 
 	daftar[idx].kerusakan = rusak
 	*n++
 }
-// END CRUD KENDARAAN
+	
 
 // ALGORITMA Searching dan Sorting
 // Rifqi Bhadrika Adwitiya
