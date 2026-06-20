@@ -1,6 +1,6 @@
 # AutoCare
 
-AutoCare adalah aplikasi berbasis terminal yang dibuat menggunakan bahasa Go untuk membantu pengelolaan data kendaraan, pemilik kendaraan, dan riwayat servis. Program ini juga menyediakan fitur pencarian, pengurutan, serta statistik data servis kendaraan.
+AutoCare adalah aplikasi untuk mengelola data kendaraan dan pemeliharaan teknis secara berkala. Data utama yang digunakan adalah data kendaraan, data pemilik, dan data riwayat servis. Pengguna aplikasi adalah admin bengkel atau manajer operasional armada.
 
 ## Fitur
 
@@ -45,7 +45,7 @@ Menggunakan:
 ```go
 type kendaraan struct {
    platnomor, merek, tglserviceterakir,nama,kontak,tanggalperbaikan,kerusakan string
-		tahunproduksi,biaya,jumlah int
+   tahunproduksi,biaya,jumlah int
 }
 ```
 
@@ -84,33 +84,16 @@ type kendaraan struct {
 
 ---
 
-##  Tim Pengembang
+##  Pembuat
 
-### Raden Hasbi Radhitya N.
+### Raden Hasbi Radhitya N. (103012530017)
 Kontribusi:
 - CRUD Data Kendaraan
 - Main
-### Rifqi Bhadrika Adwitiya
+### Rifqi Bhadrika Adwitiya (103012500339)
 Kontribusi:
 - Searching
 - Sorting
 - Statistik Kendaraan
 
 ---
-
-##  Tujuan Proyek
-
-Proyek ini dibuat untuk menerapkan konsep:
-- Struct dan Array dalam Go
-- Procedure dan Function
-- CRUD Operation
-- Searching Algorithm
-- Sorting Algorithm
-- Pengolahan Statistik Data
-- Pemrograman Terstruktur
-
----
-
-##  Lisensi
-
-Proyek ini dibuat untuk keperluan pembelajaran dan tugas akademik.
