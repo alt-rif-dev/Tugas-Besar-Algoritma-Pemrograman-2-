@@ -1,24 +1,25 @@
 package main
 
 import "fmt"
-
 const nmax = 999
 
 type kendaraan struct {
 	platnomor, tipekendaraan, tglserviceterakir, nama, kontak, tanggalperbaikan, kerusakan string
 	tahunproduksi, biaya, jumlah int
 }
-
 type tabkendaraan [nmax]kendaraan
 // Handling Eror Tanggal 
 func kabisat(tahun int) bool {
+	//is. function mencari tahun kabisat
+	//fs. mengembalikan true jika tahun adalah tahun kabisat
 	if tahun%400 == 0 || (tahun % 100 != 0 && tahun % 4 == 0)  {
 		return true
 	}
 	return false
 }
-
 func cektanggal(tahun, bulan, hari int) bool {
+	//is. function untuk mengecek hari dan bulan 
+	//fs. function mengembalikan nilai true jika format hari dan bulan benar
 	if bulan < 1 || bulan > 12 {
 		return false
 	}
@@ -38,38 +39,33 @@ func cektanggal(tahun, bulan, hari int) bool {
 	}
 	return false
 }
-
 func cekformattanggal(tgl string) string {
+	//is. function mengecek format tanggal
+	//fs. function mengembalikan string "SALAH" jika format tanggal salah
 	var tahun, bulan, hari int
 	// Cek panjang string harus 10 karakter (Tahun-Bulan-Hari)
 	if len(tgl) != 10 {
 		return "SALAH"
 	}
-
 	// Cek posisi strip ('-') di index 4 & 7 
 		if tgl[4] != '-' || tgl[7] != '-' {
 		return "SALAH"
 	}
-
 	// Konversi char jadi angka, - '0' biar jadi angka asli. 
 	// contoh tgl[0] = '2' di ascii = 50, 50-48 = 2 dikonversi jadi int 
-	
 	tahun = int(tgl[0]-'0')*1000 + int(tgl[1]-'0')*100 + int(tgl[2]-'0')*10 + int(tgl[3]-'0')
 	bulan = int(tgl[5]-'0')*10 + int(tgl[6]-'0')
 	hari = int(tgl[8]-'0')*10 + int(tgl[9]-'0')
-
-	
 	if cektanggal(tahun, bulan, hari) {
 		return tgl
 	}
-
 	return "SALAH"
 }	
-
 // CRUD KENDARAAN
 // Raden Hasbi Radhitya N.
 // Ini procedure crud input, baca, ubah, hapus, tampil KENDARAAN (tampil khusus searching buat nampilin).
 func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
+	//is. procedure untuk menginput / menambah data kendaraan
 	var i int
 	var tempTgl, hasilCek string
 	var valid bool
@@ -100,10 +96,7 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 		for !valid {
 			fmt.Print("Tanggal Perbaikan (contoh 2025-01-01): ")
 			fmt.Scan(&tempTgl)
-			
-			
 			hasilCek = cekformattanggal(tempTgl) 
-			
 			if hasilCek != "SALAH" {
 				daftar[i].tanggalperbaikan = hasilCek
 				valid = true 
@@ -111,17 +104,18 @@ func inputkendaraan(daftar *tabkendaraan, n int, total *int) {
 				fmt.Println("Tanggal tidak valid atau format salah!")
 			}
 		}
-
 		fmt.Print("Jenis Kerusakan (Gunakan '_' sebagai pengganti spasi): ")
 		fmt.Scan(&daftar[i].kerusakan)
 	}
 	*total = *total + n
 	fmt.Println("Data Kendaraan Berhasil Ditambahkan")
 }
-
 func bacakendaraan(daftar tabkendaraan, n int) {
+	//is. Procedure menampilkan data kendaraan yang telah di inputkan
 	var i int
-	fmt.Println("+++ AutoCare +++")
+	fmt.Println("======================================")
+	fmt.Println("++++++++++++++ AutoCare ++++++++++++++")
+	fmt.Println("======================================")
 	for i = 0; i < n; i++ {
 		fmt.Println("Nama Pemilik: ", daftar[i].nama)
 		fmt.Println("Kontak: ", daftar[i].kontak)
@@ -131,15 +125,14 @@ func bacakendaraan(daftar tabkendaraan, n int) {
 		fmt.Println("Tanggal Service Terakhir: ", daftar[i].tglserviceterakir)
 		fmt.Println("Tanggal Perbaikan: ", daftar[i].tanggalperbaikan)
 		fmt.Println("Jenis Kerusakan: ", daftar[i].kerusakan)
-		fmt.Println("---")
+		fmt.Println("======================================")
 	}
 }
-
 func ubahkendaraan(daftar *tabkendaraan, n int) {
+	//is. procedure untuk mengubah data kendaraan yang baru
 	var target, baru, tempTgl, hasilCek string
 	var idx, baruint int
 	var valid bool
-
 	fmt.Print("Masukkan plat kendaraan yang ingin diubah: ")
 	fmt.Scan(&target)
 	idx = seqsearchkendaraan(*daftar, n, target)
@@ -151,31 +144,26 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
 		if baru != "-" {
 			daftar[idx].nama = baru
 		}
-
 		fmt.Print("Masukkan kontak baru ( '-' untuk skip): ")
 		fmt.Scan(&baru)
 		if baru != "-" {
 			daftar[idx].kontak = baru
 		}
-
 		fmt.Print("Masukkan plat nomor baru ( '-' untuk skip): ")
 		fmt.Scan(&baru)
 		if baru != "-" {
 			daftar[idx].platnomor = baru
 		}
-
 		fmt.Print("Masukkan merek kendaraan baru ( '-' untuk skip): ")
 		fmt.Scan(&baru)
 		if baru != "-" {
 			daftar[idx].tipekendaraan = baru
 		}
-
 		fmt.Print("Masukkan tahun produksi baru ( '0' untuk skip): ")
 		fmt.Scan(&baruint)
 		if baruint != 0 {
 			daftar[idx].tahunproduksi = baruint
 		}
-
 		valid = false
         for !valid {
             fmt.Print("Masukkan tgl service terakhir baru ( 'SKIP' untuk skip): ")
@@ -192,15 +180,12 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
                 }
             }
         }
-
         valid = false
         for !valid {
             fmt.Print("Masukkan tgl perbaikan baru ( 'SKIP' untuk skip): ")
             fmt.Scan(&tempTgl)
-            
-            // Cegat "SKIP" khusus untuk tanggal
             if tempTgl == "SKIP" {
-                valid = true // Langsung keluar loop, data lama aman
+                valid = true 
             } else {
                 hasilCek = cekformattanggal(tempTgl)
                 if hasilCek != "SALAH" {
@@ -211,18 +196,16 @@ func ubahkendaraan(daftar *tabkendaraan, n int) {
                 }
             }
         }
-
         fmt.Print("Masukkan jenis kerusakan baru ( '-' untuk skip): ")
         fmt.Scan(&baru)
         if baru != "-" {
             daftar[idx].kerusakan = baru
         }
-        
         fmt.Println("Data Kendaraan Berhasil Diubah ")
     }
 }
-
 func hapuskendaraan(daftar *tabkendaraan, n *int) {
+	//is. procedure untuk menghapus data kendaraan yang ingin di hapus
 	var target string
 	var idx, i int
 	fmt.Print("Masukkan plat kendaraan yang ingin dihapus: ")
@@ -238,9 +221,11 @@ func hapuskendaraan(daftar *tabkendaraan, n *int) {
 		fmt.Println("Data kendaraan berhasil dihapus")
 	}
 }
-
 func tampilkendaraan(daftar tabkendaraan, n int) {
-	fmt.Println("+++ AutoCare +++")
+	//is. procedure untuk menampilkan kendaraan yang di cari pada sequential search
+	fmt.Println("======================================")
+	fmt.Println("++++++++++++++ AutoCare ++++++++++++++")
+	fmt.Println("======================================")
 	fmt.Println("Nama Pemilik: ", daftar[n].nama)
 	fmt.Println("Kontak: ", daftar[n].kontak)
 	fmt.Println("Plat Nomor: ", daftar[n].platnomor)
@@ -249,10 +234,10 @@ func tampilkendaraan(daftar tabkendaraan, n int) {
 	fmt.Println("Tanggal Service Terakhir: ", daftar[n].tglserviceterakir)
 	fmt.Println("Tanggal Perbaikan: ", daftar[n].tanggalperbaikan)
 	fmt.Println("Jenis Kerusakan: ", daftar[n].kerusakan)
-	fmt.Println("---")
+fmt.Println("======================================")
 }
-
 func tambahData(daftar *tabkendaraan, n *int, nama, kontak, plat, tipekendaraan string, tahun int, tglAkhir, tglPerbaikan, rusak string) {
+	//is. procedure untuk menambahkan data dummy kendaraan 
 	var idx int
 	idx = *n
 	daftar[idx].nama = nama
@@ -265,14 +250,12 @@ func tambahData(daftar *tabkendaraan, n *int, nama, kontak, plat, tipekendaraan 
 	daftar[idx].kerusakan = rusak
 	*n++
 }
-
 // END CRUD KENDARAAN
 
 // ALGORITMA Searching dan Sorting
 // Rifqi Bhadrika Adwitiya
-
 func selectionsorttahunasc(daftar *tabkendaraan, n int) {
-	// Algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Ascending
+	// Is. Procedure algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Ascending
 	var i, pass, idx int
 	var temp kendaraan
 	for pass = 0; pass < n-1; pass++ {
@@ -287,9 +270,8 @@ func selectionsorttahunasc(daftar *tabkendaraan, n int) {
 		daftar[idx] = temp
 	}
 }
-
 func selectionsorttahundesc(daftar *tabkendaraan, n int) {
-	// Algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Descending
+	// Is. Procedure algoritma Selection Sort dengan pengurutan berdasarkan tahun produksi Descending
 	var i, pass, idx int
 	var temp kendaraan
 	for pass = 0; pass < n-1; pass++ {
@@ -304,9 +286,8 @@ func selectionsorttahundesc(daftar *tabkendaraan, n int) {
 		daftar[idx] = temp
 	}
 }
-
 func selectionsortplat(daftar *tabkendaraan, n int) {
-	// Algoritma Selection Sort dengan pengurutan berdasarkan plat kendaraan Ascending
+	// Is. Procedure algoritma Selection Sort dengan pengurutan berdasarkan plat kendaraan Ascending
 	var i, pass, idx int
 	var temp kendaraan
 	for pass = 0; pass < n-1; pass++ {
@@ -321,9 +302,8 @@ func selectionsortplat(daftar *tabkendaraan, n int) {
 		daftar[idx] = temp
 	}
 }
-
 func insertionsortserviceasc(daftar *tabkendaraan, n int) {
-	// Algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir Ascending
+	// Is. Procedure algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir Ascending
 	var pass, i int
 	var temp kendaraan
 	pass = 1
@@ -338,9 +318,8 @@ func insertionsortserviceasc(daftar *tabkendaraan, n int) {
 		pass++
 	}
 }
-
 func insertionsortservicedesc(daftar *tabkendaraan, n int) {
-	// Algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir descending
+	// Is. Procedure algoritma Insertion Sort dengan pengurutan berdasarkan tanggal service terakhir Descending
 	var pass, i int
 	var temp kendaraan
 	pass = 1
@@ -355,28 +334,20 @@ func insertionsortservicedesc(daftar *tabkendaraan, n int) {
 		pass++
 	}
 }
-
 func seqsearchkendaraan(daftar tabkendaraan, n int, target string) int {
-	// Algoritma Sequential Search dengan pencarian bedasarkan plat kendaraan
+	// Is. Function sequential search untuk mencari kendaraan berdasarkan plat nomor 
+	// Fs. Function sequential search mengembalikan index kendaraan yang dicari
 	var i int
-	var found bool
-	found = false
-	i = 0
-	for i < n && !found {
-		if daftar[i].platnomor == target {
-			found = true
-		} else {
-			i++
+	for i = 0; i<n; i++{
+		if daftar[i].platnomor == target{
+			return  i
 		}
-	}
-	if found {
-		return i
 	}
 	return -1
 }
-
 func binsearchkendaraan(daftar tabkendaraan, n int, target string) int {
-	// Algoritma Binary Search dengan pencarian bedasarkan plat kendaraan
+	// Is. Function sequential search untuk mencari kendaraan berdasarkan plat nomor 
+	// Fs. Function sequential search mengembalikan index kendaraan yang dicari
 	var left, right, mid int
 	var found bool
 	left = 0
@@ -397,11 +368,10 @@ func binsearchkendaraan(daftar tabkendaraan, n int, target string) int {
 	}
 	return -1
 }
-
 // statistik & kerusakan
 // Rifqi Bhadrika Adwitiya
 func statistikperbulan(daftar tabkendaraan, n int) {
-	// Procedure untuk menampilkan statistik service tiap bulan
+	// is.Procedure untuk menampilkan statistik service tiap bulan
 	// karena format tanggal: Tahun-Bulan-Hari, pake slice index 0:4 untuk tahun, 5:7 untuk bulan
 	var hasil tabkendaraan
 	var jumlahhasil, i, k, found int
@@ -428,13 +398,14 @@ func statistikperbulan(daftar tabkendaraan, n int) {
 			}
 		}
 	}
-	fmt.Println("+++ AutoCare +++")
+	fmt.Println("======================================")
+	fmt.Println("++++++++++++++ AutoCare ++++++++++++++")
+	fmt.Println("======================================")
 	fmt.Println("Statistik Service per bulan:")
 	for i = 0; i < jumlahhasil; i++ {
 		fmt.Println(hasil[i].tanggalperbaikan, hasil[i].jumlah, hasil[i].tipekendaraan)
 	}
 }
-
 func statistikkerusakan(daftar tabkendaraan, n int) {
 	// Procedure untuk menampilkan statistik kategori kerusakan yang sering muncul
 	var hasil tabkendaraan
@@ -460,28 +431,31 @@ func statistikkerusakan(daftar tabkendaraan, n int) {
 			jumlahhasil++
 		}
 	}
-	fmt.Println("+++ AutoCare +++")
+	fmt.Println("======================================")
+	fmt.Println("++++++++++++++ AutoCare ++++++++++++++")
+	fmt.Println("======================================")
 	fmt.Println("Kategori kerusakan yang paling sering muncul:")
 	for i = 0; i < jumlahhasil; i++ {
 		fmt.Println(hasil[i].kerusakan, hasil[i].jumlah, hasil[i].tipekendaraan)
 	}
 }
-
 func main() {
+	// Is. Program Menu Dari sistem management riwayat service kendaraan (AutoCare)
+	// Fs. Program Menjalankan semua function yang sudah dibuat untuk sistem aplikasi 
 	var daftarkendaraan tabkendaraan
 	var jumlahkendaraan, pilihan, subpilihan, idx, jumlahbaru int
 	var target string
 	var selesai bool
 	selesai = false
-
 	tambahData(&daftarkendaraan, &jumlahkendaraan, "Agus", "081234", "A1234", "Motor", 2013, "2022-01-01", "2025-01-01", "Ganti_Oli")
 	tambahData(&daftarkendaraan, &jumlahkendaraan, "Budi", "089998", "B9999", "Mobil", 2020, "2021-04-13", "2024-06-06", "Rem_Blong")
 	tambahData(&daftarkendaraan, &jumlahkendaraan, "Caca", "083210", "B5678", "Motor", 2015, "2023-05-05", "2024-06-06", "Body_Motor_Rusak")
 	tambahData(&daftarkendaraan, &jumlahkendaraan, "Duncan", "086767", "D6767", "Motor", 2006, "2026-06-07", "2026-07-06", "Ganti_Ban")
 	tambahData(&daftarkendaraan, &jumlahkendaraan, "Enzen", "087676", "D7676", "Mobil", 2007, "2026-05-12", "2026-07-07", "Ganti_Ban")
-
 	for !selesai {
-		fmt.Println("\n+++ AutoCare +++")
+		fmt.Println("======================================")
+		fmt.Println("++++++++++++++ AutoCare ++++++++++++++")
+		fmt.Println("======================================")
 		fmt.Println("Selamat Datang Di AutoCare")
 		fmt.Println("Silahkan Pilih Menu Yang Kami Sediakan")
 		fmt.Println("1. Tambah Data Kendaraan")
@@ -494,18 +468,20 @@ func main() {
 		fmt.Println("0. Keluar")
 		fmt.Print("Pilih 0-7: ")
 		fmt.Scan(&pilihan)
-
 		switch pilihan {
 		case 1:
 			fmt.Print("Masukkan Jumlah Kendaraan Yang Ingin Di Inputkan: ")
 			fmt.Scan(&jumlahbaru)
 			inputkendaraan(&daftarkendaraan, jumlahbaru, &jumlahkendaraan)
+			bacakendaraan(daftarkendaraan,jumlahkendaraan)
 		case 2:
 			bacakendaraan(daftarkendaraan, jumlahkendaraan)
 		case 3:
 			ubahkendaraan(&daftarkendaraan, jumlahkendaraan)
+			bacakendaraan(daftarkendaraan,jumlahkendaraan)
 		case 4:
 			hapuskendaraan(&daftarkendaraan, &jumlahkendaraan)
+			bacakendaraan(daftarkendaraan,jumlahkendaraan)
 		case 5:
 			fmt.Println("+++ AutoCare +++")
 			fmt.Println("1. Cari Data Kendaraan Menggunakan Sequential Search")
@@ -558,7 +534,6 @@ func main() {
 				insertionsortserviceasc(&daftarkendaraan, jumlahkendaraan)
 				fmt.Println("Data berhasil diurutkan secara ascending berdasarkan tanggal service (Terdahulu ke Terbaru)")
 				bacakendaraan(daftarkendaraan, jumlahkendaraan)
-			
 			case 4:
 				insertionsortservicedesc(&daftarkendaraan, jumlahkendaraan)
 				fmt.Println("Data berhasil diurutkan secara descending berdasarkan tanggal service (Terdahulu ke Terbaru)")
